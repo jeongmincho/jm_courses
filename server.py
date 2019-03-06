@@ -186,18 +186,18 @@ def search_course(url, path):
                                     (department.get("code"), course.get("catalog_number"), course.get("title")))
 
 
-def route_index(self, path, query):
-    """Handles routing for the application's entry point'"""
-    try:
-        return ResponseData(status=HTTP_STATUS["OK"], content_type="text_html",
-                            # Open a binary stream for reading the index
-                            # HTML file
-                            data_stream=open(os.path.join(sys.path[0],
-                                                          path[1:]), "rb"))
-    except IOError as err:
-        # Couldn't open the stream
-        raise HTTPStatusError(HTTP_STATUS["INTERNAL_SERVER_ERROR"],
-                              str(err))
+# def route_index(self, path, query):
+#     """Handles routing for the application's entry point'"""
+#     try:
+#         return ResponseData(status=HTTP_STATUS["OK"], content_type="text_html",
+#                             # Open a binary stream for reading the index
+#                             # HTML file
+#                             data_stream=open(os.path.join(sys.path[0],
+#                                                           path[1:]), "rb"))
+#     except IOError as err:
+#         # Couldn't open the stream
+#         raise HTTPStatusError(HTTP_STATUS["INTERNAL_SERVER_ERROR"],
+#                               str(err))
 
 
 class Reply(SimpleHTTPServer.SimpleHTTPRequestHandler):
@@ -252,31 +252,3 @@ subj = all["term"][0]["subjects"]
 
 
 main()
-
-
-# def search_dept(path):
-#     title_query = path[0]
-#     hasCourse = False
-#     insert_or_incr(title_query)
-#     for department in subj:
-#         if (course.get("code").lower() == title_query):
-#             hasCourse = True
-#             for each in course.get("courses"):
-#                 if (each.get("catalog_number").lower() == num_query):
-#                     self.wfile.write("<body><p>%s %s %s</p></body>" % (
-#                         course.get("code"), each.get("catalog_number"), each.get("title")))
-#                 else:
-#                     self.wfile.write("<body><p>%s %s %s</p></body>" % (
-#                         course.get("code"), each.get("catalog_number"), each.get("title")))
-#         if (hasCourse == False):
-#             self.wfile.write("<body><p></p></body>")
-
-
-# database = "sqlite/db/registrar.db"
-# # create a database connection
-# conn = create_connection(database)
-# cur = conn.cursor()
-# cur.execute(
-#     "CREATE TABLE IF NOT EXISTS counts(dept VARCHAR(10) PRIMARY KEY, counter INT)")
-# cur.execute("""insert or ignore into counts values ('COS',0)""")
-# conn.commit()
