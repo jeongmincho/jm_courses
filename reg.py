@@ -59,7 +59,7 @@ def counts_all(url, path):
     arr = cur.fetchall()
     for tup in arr:
         count_str = tup[0] + " " + str(tup[1])
-        url.wfile.write("<div>%s</div>" % count_str)
+        url.wfile.write("<div>%s</div>" % count_str.upper())
     conn.commit()
     cur.close()
     conn.close()
@@ -75,7 +75,7 @@ def counts_dept(url, path):
     arr = cur.fetchall()
     for tup in arr:
         count_str = tup[0] + " " + str(tup[1])
-        url.wfile.write("<div>%s</div>" % count_str)
+        url.wfile.write("<div>%s</div>" % count_str.upper())
     conn.commit()
     cur.close()
     conn.close()
@@ -150,6 +150,7 @@ def search_dept(url, path):
         url.wfile.write("\n")
         return
 
+
 def search_course(url, path):
     dept = path[0]
     num = path[1]
@@ -171,6 +172,7 @@ def search_course(url, path):
     if (hasCourse == False):
         url.wfile.write("\n")
         return
+
 
 class Reply(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
@@ -200,7 +202,8 @@ class Reply(SimpleHTTPServer.SimpleHTTPRequestHandler):
             mimetype = 'text/html'
             self.send_header("Content-type", mimetype)
             self.end_headers()
-            self.wfile.write("<head><link rel=stylesheet href=style.css /></head>")
+            self.wfile.write(
+                "<head><link rel=stylesheet href=style.css /></head>")
             self.wfile.write("<body><div class=container>")
             print path
             if (path[0] == "count"):
