@@ -5,7 +5,7 @@ html, body {
 
 #question {
     font-family: 'Poppins', sans-serif;
-    font-size: 2.5rem;
+    font-size: 36px;
     color: #fff;
     font-weight: 800;
     text-align: center;
@@ -13,7 +13,7 @@ html, body {
 
 div {
     font-family: 'Poppins';
-    font-size: 2rem;
+    font-size: 1.5vw;
 }
 
 .container-fluid {
@@ -72,9 +72,17 @@ div {
     padding: 15px; */
 }
 
-.btn {
+.buttons {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background: transparent;
     border: 0;
-    font-size: 1.5rem;
+    display: block;
+    font-size: 18px;
 }
 
 #query {
@@ -85,7 +93,7 @@ div {
     border: 0;
     background: #fff;
     padding: 10px 32px;
-    font-size: 2rem;
+    font-size: 36px;
     color: #666;
     border-radius: 34px;
     align-items: center;
