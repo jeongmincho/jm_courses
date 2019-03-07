@@ -238,9 +238,9 @@ def get_OIT(url):
 
 def main():
     # Read OIT feed before starting the server.
-    print("server is listening on port 33333")
-    # SocketServer.ForkingTCPServer(('', 33333), Reply).serve_forever()
-    SocketServer.ForkingTCPServer(('', 33332), Reply).serve_forever()
+    print("server is listening on port %s" % sys.argv[1])
+    SocketServer.ForkingTCPServer(
+        ('', int(sys.argv[1])), Reply).serve_forever()
 
 
 oit = 'http://etcweb.princeton.edu/webfeeds/courseofferings/?fmt=json&term=current&subject=all'
