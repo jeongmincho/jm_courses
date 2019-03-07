@@ -190,7 +190,7 @@ class Reply(SimpleHTTPServer.SimpleHTTPRequestHandler):
         # self.send_header("Content-type", "text/html")
         self.send_response(200)
         if (self.path == '/'):
-            self.path = "/index3.html"
+            self.path = "/index.html"
             mimetype = 'text/html'
             f = open(curdir + sep + self.path)
             self.send_header("Content-type", mimetype)
