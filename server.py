@@ -118,7 +118,7 @@ def clear_all(url, path):
     cur = conn.cursor()
     print path
     cur.execute("delete from counts")
-    url.wfile.write("<div>all has been cleared</div>")
+    url.wfile.write("\n")
     conn.commit()
     cur.close()
     conn.close()
