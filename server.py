@@ -52,7 +52,7 @@ def return_counts(url, path):
 
     # anything else, should be ignored (return empty blank line)
     else:
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("\n")
 
 
 def counts_all(url, path):
@@ -108,7 +108,7 @@ def clear_counts(url, path):
 
     # anything else, should be ignored (return empty blank line)
     else:
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("\n")
 
 
 def clear_all(url, path):
@@ -132,8 +132,7 @@ def clear_dept(url, path):
     dept = path[1]
     print path
     cur.execute("delete from counts where dept = ?", (dept,))
-    url.wfile.write(
-        "<div>count for %s has been cleared</div>" % dept)
+    url.wfile.write("\n")
     conn.commit()
     cur.close()
     conn.close()
@@ -151,7 +150,7 @@ def return_search(url, path):
 
     # anything else, should be ignored (return empty blank line)
     else:
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("\n")
 
 
 def search_dept(url, path):
@@ -159,7 +158,7 @@ def search_dept(url, path):
     dept = path[0]
     # if the dept search query isn't 3-char, ignore that
     if (len(dept) != 3):
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("\n")
         return
     insert_or_incr(dept)
     for department in subj:
@@ -175,7 +174,7 @@ def search_course(url, path):
     num = path[1]
     # if either dept or num search query isn't 3-char, ignore that
     if (len(dept) != 3 or len(num) != 3):
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("\n")
         return
     insert_or_incr(dept)
     for department in subj:
@@ -189,10 +188,9 @@ def search_course(url, path):
 class Reply(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
         # self.send_header("Content-type", "text/html")
-        # this is so dirty, i don't like it.
         self.send_response(200)
         if (self.path == '/'):
-            self.path = "/index.html"
+            self.path = "/index3.html"
             mimetype = 'text/html'
             f = open(curdir + sep + self.path)
             self.send_header("Content-type", mimetype)
@@ -200,13 +198,13 @@ class Reply(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.wfile.write(f.read())
         elif self.path.endswith(".css"):
             mimetype = 'text/css'
-            f = open(curdir + sep + self.path)
+            f = open("style.css")
             self.send_header("Content-type", mimetype)
             self.end_headers()
             self.wfile.write(f.read())
         elif self.path.endswith(".jpg"):
             mimetype = 'text/jpg'
-            f = open(curdir + sep + self.path)
+            f = open("bg.jpg")
             self.send_header("Content-type", mimetype)
             self.end_headers()
             self.wfile.write(f.read())
@@ -240,9 +238,10 @@ def get_OIT(url):
 
 def main():
     # Read OIT feed before starting the server.
-    print("server is listening on port %s" % sys.argv[1])
-    SocketServer.ForkingTCPServer(
-        ('', int(sys.argv[1])), Reply).serve_forever()
+    print("server is listening on port 33333")
+    # SocketServer.ForkingTCPServer(('', 33333), Reply).serve_forever()
+    SocketServer.ForkingTCPServer(('', 33332), Reply).serve_forever()
+
 
 oit = 'http://etcweb.princeton.edu/webfeeds/courseofferings/?fmt=json&term=current&subject=all'
 all = get_OIT(oit)

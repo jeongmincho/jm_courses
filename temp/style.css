@@ -24,8 +24,8 @@ div {
 
 .container {
     color: white;
+    /* background: orange; */
     height: 100%;
-    padding: 2vh;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("bg.jpg") no-repeat center center;
     background-size: cover;
     overflow: scroll;
