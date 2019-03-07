@@ -174,7 +174,7 @@ def search_course(url, path):
     dept = path[0]
     num = path[1]
     # if either dept or num search query isn't 3-char, ignore that
-    if (len(dept) != 3 or len(num) != 3):
+    if (len(dept) != 3 or len(num) < 3):
         url.wfile.write("\n")
         return
     insert_or_incr(dept)

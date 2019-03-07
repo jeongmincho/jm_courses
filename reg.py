@@ -25,23 +25,18 @@ def insert_or_incr(query):
     cur = conn.cursor()
     cur.execute(
         "CREATE TABLE IF NOT EXISTS counts(dept VARCHAR(10) PRIMARY KEY, counter INT)")
-    # cur.execute("""insert or ignore into counts values ('COS',0)""")
     conn.commit()
     cur = conn.cursor()
-    # print("something")
-    # print(cur)
     cur.execute("insert or ignore into counts values (?,0)", (query,))
     cur.execute(
         "UPDATE counts SET counter = counter + 1 WHERE dept = ?", (query,))
     cur.execute("select * from counts")
-    # print(cur.fetchall())
     conn.commit()
     cur.close()
     conn.close()
 
 
 def return_counts(url, path):
-    print "arrived at return_counts"
     # if there's only one word, that's potentially counts for all
     if (len(path) == 1):
         counts_all(url, path)
@@ -56,19 +51,14 @@ def return_counts(url, path):
 
 
 def counts_all(url, path):
-    print "arrived at counts_all"
     database = "sqlite/db/registrar.db"
     # create a database connection
     conn = create_connection(database)
     cur = conn.cursor()
-    print path
     cur.execute("select * from counts")
     arr = cur.fetchall()
-    # print arr
     for tup in arr:
-        # print tup
         count_str = tup[0] + " " + str(tup[1])
-        # print count_str
         url.wfile.write("<div>%s</div>" % count_str)
     conn.commit()
     cur.close()
@@ -76,20 +66,15 @@ def counts_all(url, path):
 
 
 def counts_dept(url, path):
-    print "arrived at counts_dept"
     database = "sqlite/db/registrar.db"
     # create a database connection
     conn = create_connection(database)
     cur = conn.cursor()
     dept = path[1]
-    print path
     cur.execute("select * from counts where dept = ?", (dept,))
     arr = cur.fetchall()
-    # print arr
     for tup in arr:
-        # print tup
         count_str = tup[0] + " " + str(tup[1])
-        # print count_str
         url.wfile.write("<div>%s</div>" % count_str)
     conn.commit()
     cur.close()
@@ -97,7 +82,6 @@ def counts_dept(url, path):
 
 
 def clear_counts(url, path):
-    print "arrived at clear_counts"
     # if there's only one word, that's potentially a dept search
     if (len(path) == 1):
         clear_all(url, path)
@@ -112,11 +96,9 @@ def clear_counts(url, path):
 
 
 def clear_all(url, path):
-    print "arrived at clear_all"
     database = "sqlite/db/registrar.db"
     conn = create_connection(database)
     cur = conn.cursor()
-    print path
     cur.execute("delete from counts")
     url.wfile.write("\n")
     conn.commit()
@@ -125,12 +107,10 @@ def clear_all(url, path):
 
 
 def clear_dept(url, path):
-    print "arrived at clear_dept"
     database = "sqlite/db/registrar.db"
     conn = create_connection(database)
     cur = conn.cursor()
     dept = path[1]
-    print path
     cur.execute("delete from counts where dept = ?", (dept,))
     url.wfile.write("\n")
     conn.commit()
@@ -139,7 +119,6 @@ def clear_dept(url, path):
 
 
 def return_search(url, path):
-    print "arrived at return_search"
     # if there's only one word, that's potentially counts for all
     if (len(path) == 1):
         search_dept(url, path)
@@ -154,8 +133,8 @@ def return_search(url, path):
 
 
 def search_dept(url, path):
-    print "arrived at search_dept"
     dept = path[0]
+    hasDept = False
     # if the dept search query isn't 3-char, ignore that
     if (len(dept) != 3):
         url.wfile.write("\n")
@@ -164,26 +143,34 @@ def search_dept(url, path):
     for department in subj:
         if (department.get("code").lower() == dept):
             for course in department.get("courses"):
+                hasDept = True
                 url.wfile.write("<div>%s %s %s</div>" %
                                 (department.get("code"), course.get("catalog_number"), course.get("title")))
-
+    if (hasDept == False):
+        url.wfile.write("\n")
+        return
 
 def search_course(url, path):
-    print "arrived at search_course"
     dept = path[0]
     num = path[1]
+    hasCourse = False
     # if either dept or num search query isn't 3-char, ignore that
-    if (len(dept) != 3 or len(num) != 3):
+    if (len(dept) != 3 or len(num) < 3):
         url.wfile.write("\n")
         return
     insert_or_incr(dept)
     for department in subj:
         if (department.get("code").lower() == dept):
+            print "arrived at department match"
             for course in department.get("courses"):
-                if (course.get("catalog_number").lower() == num):
+                if (course.get("catalog_number").lower() == num.lower()):
+                    print "arrived at course match"
+                    hasCourse = True
                     url.wfile.write("<div>%s %s %s</div>" %
                                     (department.get("code"), course.get("catalog_number"), course.get("title")))
-
+    if (hasCourse == False):
+        url.wfile.write("\n")
+        return
 
 class Reply(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
