@@ -3,27 +3,61 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js">
+<html lang="en">
   <!--<![endif]-->
+
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
     <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <input type="text" id="query" />
-    <button id="button">SUBMIT IT</button>
-    <button id="count">COUNT</button>
-    <button id="clear">CLEAR</button>
+    <div class="jumbotron text-center">
+      <div class="container-fluid">
+        <div class="flex-column align-items-center">
+          <div class="p-2" id="question">
+            What course are you looking for?
+          </div>
+          <div class="p-2">
+            <input type="text" id="query" />
+            <button id="button" class="btn btn-default"><i class="fa fa-search"></i>
+            </button>
+          </div>
+        <div class="p-2">
+          <button id="count" class="btn btn-default">COUNT</button>
+          <button id="clear" class="btn btn-default">CLEAR</button>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
 
     <script type="text/javascript">
+      var form = document.getElementById("query");
+      form.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          document.getElementById("button").click();
+        }
+      });
       document.getElementById("button").addEventListener("click", function() {
         var form = document.getElementById("query").value;
         console.log(form);
         window.location.pathname = `/${form}`;
+        document.getElementById("query").value = "";
       });
       document.getElementById("count").addEventListener("click", function() {
         var form = document.getElementById("query").value;
@@ -33,6 +67,7 @@
         } else {
           window.location.pathname = `/count/${form}`;
         }
+        document.getElementById("query").value = "";
       });
       document.getElementById("clear").addEventListener("click", function() {
         var form = document.getElementById("query").value;
@@ -42,7 +77,23 @@
         } else {
           window.location.pathname = `/clear/${form}`;
         }
+        document.getElementById("query").value = "";
       });
     </script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

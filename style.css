@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+html, body {
+    height: 100%;
+}
+
+#question {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    color: #fff;
+    font-weight: 800;
+    text-align: center;
+}
+
+div {
+    font-family: 'Poppins';
+}
+
+.container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+}
+
+.container {
+    color: white;
+    /* background: orange; */
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("bg.jpg") no-repeat center center;
+    background-size: cover;
+    overflow: scroll;
+}
+
+.btn-default {
+    color: white;
+}
+
+.flex-col .search {
+    margin: 0 auto;
+}
+
+/* #button {
+    position: absolute;
+    z-index: 2;
+} */
+
+.fa-search {
+    color: white;
+}
+
+.jumbotron {
+    display: block;
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0;
+    /* flex-direction: column;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center; */
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("bg.jpg") no-repeat center center;
+    background-size: cover;
+    /* background-size: cover;
+    background-position: center center;
+    padding: 15px; */
+}
+
+.buttons {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background: transparent;
+    border: 0;
+    display: block;
+    font-size: 18px;
+}
+
+#query {
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    background: transparent;
+    border: 0;
+    background: #fff;
+    padding: 10px 32px;
+    font-size: 18px;
+    color: #666;
+    border-radius: 34px;
+    align-items: center;
+}

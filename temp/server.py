@@ -52,7 +52,7 @@ def return_counts(url, path):
 
     # anything else, should be ignored (return empty blank line)
     else:
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("<body><p>returning empty line</p></body>")
 
 
 def counts_all(url, path):
@@ -69,7 +69,7 @@ def counts_all(url, path):
         # print tup
         count_str = tup[0] + " " + str(tup[1])
         # print count_str
-        url.wfile.write("<div>%s</div>" % count_str)
+        url.wfile.write("<body><p>%s</p></body>" % count_str)
     conn.commit()
     cur.close()
     conn.close()
@@ -90,7 +90,7 @@ def counts_dept(url, path):
         # print tup
         count_str = tup[0] + " " + str(tup[1])
         # print count_str
-        url.wfile.write("<div>%s</div>" % count_str)
+        url.wfile.write("<body><p>%s</p></body>" % count_str)
     conn.commit()
     cur.close()
     conn.close()
@@ -108,7 +108,7 @@ def clear_counts(url, path):
 
     # anything else, should be ignored (return empty blank line)
     else:
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("<body><p>returning empty line</p></body>")
 
 
 def clear_all(url, path):
@@ -118,7 +118,7 @@ def clear_all(url, path):
     cur = conn.cursor()
     print path
     cur.execute("delete from counts")
-    url.wfile.write("<div>all has been cleared</div>")
+    url.wfile.write("<body><p>all has been cleared</p></body>")
     conn.commit()
     cur.close()
     conn.close()
@@ -133,7 +133,7 @@ def clear_dept(url, path):
     print path
     cur.execute("delete from counts where dept = ?", (dept,))
     url.wfile.write(
-        "<div>count for %s has been cleared</div>" % dept)
+        "<body><p>count for %s has been cleared</p></body>" % dept)
     conn.commit()
     cur.close()
     conn.close()
@@ -151,7 +151,7 @@ def return_search(url, path):
 
     # anything else, should be ignored (return empty blank line)
     else:
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("<body><p>returning empty line</p></body>")
 
 
 def search_dept(url, path):
@@ -159,13 +159,13 @@ def search_dept(url, path):
     dept = path[0]
     # if the dept search query isn't 3-char, ignore that
     if (len(dept) != 3):
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("<body><p>returning empty line</p></body>")
         return
     insert_or_incr(dept)
     for department in subj:
         if (department.get("code").lower() == dept):
             for course in department.get("courses"):
-                url.wfile.write("<div>%s %s %s</div>" %
+                url.wfile.write("<body><p>%s %s %s</p></body>" %
                                 (department.get("code"), course.get("catalog_number"), course.get("title")))
 
 
@@ -175,56 +175,53 @@ def search_course(url, path):
     num = path[1]
     # if either dept or num search query isn't 3-char, ignore that
     if (len(dept) != 3 or len(num) != 3):
-        url.wfile.write("<div>returning empty line</div>")
+        url.wfile.write("<body><p>returning empty line</p></body>")
         return
     insert_or_incr(dept)
     for department in subj:
         if (department.get("code").lower() == dept):
             for course in department.get("courses"):
                 if (course.get("catalog_number").lower() == num):
-                    url.wfile.write("<div>%s %s %s</div>" %
+                    url.wfile.write("<body><p>%s %s %s</p></body>" %
                                     (department.get("code"), course.get("catalog_number"), course.get("title")))
+
+
+# def route_index(self, path, query):
+#     """Handles routing for the application's entry point'"""
+#     try:
+#         return ResponseData(status=HTTP_STATUS["OK"], content_type="text_html",
+#                             # Open a binary stream for reading the index
+#                             # HTML file
+#                             data_stream=open(os.path.join(sys.path[0],
+#                                                           path[1:]), "rb"))
+#     except IOError as err:
+#         # Couldn't open the stream
+#         raise HTTPStatusError(HTTP_STATUS["INTERNAL_SERVER_ERROR"],
+#                               str(err))
 
 
 class Reply(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
-        # self.send_header("Content-type", "text/html")
-        # this is so dirty, i don't like it.
         self.send_response(200)
+        self.send_header("Content-type", "text/html")
+        self.end_headers()
+        # this is so dirty, i don't like it.
         if (self.path == '/'):
             self.path = "/index.html"
-            mimetype = 'text/html'
             f = open(curdir + sep + self.path)
-            self.send_header("Content-type", mimetype)
-            self.end_headers()
             self.wfile.write(f.read())
-        elif self.path.endswith(".css"):
-            mimetype = 'text/css'
-            f = open(curdir + sep + self.path)
-            self.send_header("Content-type", mimetype)
-            self.end_headers()
-            self.wfile.write(f.read())
-        elif self.path.endswith(".jpg"):
-            mimetype = 'text/jpg'
-            f = open(curdir + sep + self.path)
-            self.send_header("Content-type", mimetype)
-            self.end_headers()
-            self.wfile.write(f.read())
+            return
         else:
             path = self.path[1:].split("/")
-            mimetype = 'text/html'
-            self.send_header("Content-type", mimetype)
-            self.end_headers()
-            self.wfile.write("<head><link rel=stylesheet href=style.css /></head>")
-            self.wfile.write("<body><div class=container>")
-            print path
-            if (path[0] == "count"):
-                return_counts(self, path)
-            elif (path[0] == "clear"):
-                clear_counts(self, path)
-            else:
-                return_search(self, path)
-            self.wfile.write("</div></body>")
+        print path
+        if (path[0] == "count"):
+            return_counts(self, path)
+
+        elif (path[0] == "clear"):
+            clear_counts(self, path)
+
+        else:
+            return_search(self, path)
         return
 
 
@@ -240,8 +237,9 @@ def get_OIT(url):
 
 def main():
     # Read OIT feed before starting the server.
-    print("server is listening on port 33333")
-    SocketServer.ForkingTCPServer(('', 33333), Reply).serve_forever()
+    print("server is listening on port %s" % sys.argv[1])
+    SocketServer.ForkingTCPServer(
+        ('', int(sys.argv[1])), Reply).serve_forever()
     # SocketServer.ForkingTCPServer(('', 33332), Reply).serve_forever()
 
 
