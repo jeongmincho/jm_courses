@@ -13,7 +13,6 @@ html, body {
 
 div {
     font-family: 'Poppins';
-    font-size: 1.5vw;
 }
 
 .container-fluid {
@@ -93,7 +92,7 @@ div {
     border: 0;
     background: #fff;
     padding: 10px 32px;
-    font-size: 36px;
+    font-size: 18px;
     color: #666;
     border-radius: 34px;
     align-items: center;
