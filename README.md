@@ -1,6 +1,6 @@
 # JM Courses: Princeton Course Listing Website
 
-This website is a simple remake of the Princeton University course registrar site.
+[This website](https://jmcourses.herokuapp.com/) is a simple remake of the Princeton University course registrar site.
 
 ## Reflection on Assignment
 
